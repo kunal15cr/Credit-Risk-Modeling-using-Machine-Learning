@@ -1,5 +1,7 @@
 [core]
     autostage = true
-    remote = myremote
+    remote = my-remote
 ['remote "myremote"']
     url = s3://mybucket/path/to/data
+['remote "my-remote"']
+    url = ../dvc-data
