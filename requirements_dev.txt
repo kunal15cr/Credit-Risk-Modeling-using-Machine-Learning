@@ -7,3 +7,5 @@ matplotlib
 dvc
 scipy
 statsmodels
+pymysql
+python-dotenv
