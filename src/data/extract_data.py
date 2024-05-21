@@ -31,10 +31,13 @@ class DataExtractSQL:
             internal_df = read_sql_data("case_study1")
             external_df = read_sql_data("case_study2")
             
-            internal_df.to_csv(self.all_path.internal_data_path / "internal.csv")
-            external_df.to_csv(self.all_path.external_data_path / "external.csv")
+            internal_df.to_csv(self.all_path.internal_data_path / "internal.csv",index=False,header=True)
+            external_df.to_csv(self.all_path.external_data_path / "external.csv",index=False,header=True)
+            
+            return internal_df ,  external_df
         except Exception as e:
             CustomException(e,sys)
+            
         
     
 def main():
