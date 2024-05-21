@@ -8,13 +8,17 @@ from src.logger import logging
 from src.exception import CustomException
 from scipy.stats import chi2_contingency as chi2
 from statsmodels.stats.outliers_influence import variance_inflation_factor
+from sklearn.model_selection import train_test_split
 
 
 @dataclass
 class DataPath:
      internal_data_path = Path.cwd() / "data" / "Internal" / "internal.csv"
      external_data_path = Path.cwd() / "data" / "external" / "external.csv"
-    
+     train_csv_path  = Path.cwd() / "data" / "processed" / "train.csv"
+     val_csv_path  = Path.cwd() / "data" / "processed" / "val.csv"
+
+  
     
 
 
@@ -116,6 +120,19 @@ class Data_Processing:
             if p_value <= 0.5:
                 num_columns_to_kept.append(i)
         return num_columns_to_kept
+    
+    def split_data(self,df,target,random_state:int,test_size:float):
+        X = df.drop(columns=[target],axis=1)
+        Y = df[target]
+        x_tran,y_train,x_test,y_test = train_test_split(X,Y,test_size=test_size,random_state=random_state)
+        
+        train_df = pd.concat([x_tran, y_train], axis=1)
+        val_df = pd.concat([x_test, y_test], axis=1)
+        train_df.to_csv(self.all_path.train_csv_path,index=False,header=True)
+        train_df.to_csv(self.all_path.val_csv_path,index=False,header=True)
+        return train_df,val_df
+    
+    
                     
         
                 
@@ -125,8 +142,7 @@ class Data_Processing:
         df2 = self.load_data(self.all_path.external_data_path)
         df1 = self.remove_null(df1)
         df2 = self.remove_null(df2)
-        print(df1.shape)
-        print(df2.shape)
+       
         
         df = self.merge_columns(df1,df2,"PROSPECTID")
     
@@ -138,6 +154,8 @@ class Data_Processing:
             
         df = df[all_feature]
         
+        self.split_data(df,"Approved_Flag",43,0.2)
+        
         return df
             
     
@@ -145,8 +163,8 @@ class Data_Processing:
         
 def main():
     data_obj = Data_Processing()
-    df = data_obj.preprocess_data()
-    print(df)
+    data_obj.preprocess_data()
+    
     
 
     
