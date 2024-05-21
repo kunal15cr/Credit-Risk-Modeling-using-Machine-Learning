@@ -1,6 +1,9 @@
-from src.features.build_features import Data_Processing
 
-data_obj = Data_Processing()
-df = data_obj.preprocess_data()
+import pandas as pd
+from pathlib import Path
+from sklearn.preprocessing import OneHotEncoder,LabelEncoder,FunctionTransformer
 
-print(df)
+df_path = Path.cwd() / "data" / "processed" / "train.csv"
+df = pd.read_csv(df_path)
+
+class 

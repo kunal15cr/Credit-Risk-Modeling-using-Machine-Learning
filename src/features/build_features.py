@@ -124,8 +124,9 @@ class Data_Processing:
     def split_data(self,df,target,random_state:int,test_size:float):
         X = df.drop(columns=[target],axis=1)
         Y = df[target]
-        x_tran,y_train,x_test,y_test = train_test_split(X,Y,test_size=test_size,random_state=random_state)
+        x_tran,x_test,y_train,y_test = train_test_split(X,Y,test_size=test_size,random_state=random_state)
         
+
         train_df = pd.concat([x_tran, y_train], axis=1)
         val_df = pd.concat([x_test, y_test], axis=1)
         train_df.to_csv(self.all_path.train_csv_path,index=False,header=True)
