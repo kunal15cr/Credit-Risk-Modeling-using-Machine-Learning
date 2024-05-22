@@ -130,7 +130,7 @@ class Data_Processing:
         train_df = pd.concat([x_tran, y_train], axis=1)
         val_df = pd.concat([x_test, y_test], axis=1)
         train_df.to_csv(self.all_path.train_csv_path,index=False,header=True)
-        train_df.to_csv(self.all_path.val_csv_path,index=False,header=True)
+        val_df.to_csv(self.all_path.val_csv_path,index=False,header=True)
         return train_df,val_df
     
     

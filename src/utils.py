@@ -1,5 +1,7 @@
 import sys
 import os 
+from joblib import dump , load
+import joblib
 from src.logger import logging
 from src.exception import CustomException
 from pathlib import Path
@@ -34,4 +36,10 @@ def read_sql_data(table_name:str):
     except Exception as e:
         raise CustomException(e,sys)
     
-    
+
+def save_obj(file_path:Path,obj: object):
+    try:
+        Path.mkdir(file_path.parent,exist_ok=True)
+        joblib.dump(obj,file_path)
+    except Exception as e:
+        raise CustomException(e,sys)
